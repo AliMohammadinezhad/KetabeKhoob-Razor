@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
+using KetabeKhoob.Razor.Infrastructure;
 using KetabeKhoob.Razor.Models;
 using KetabeKhoob.Razor.Models.Products;
 using KetabeKhoob.Razor.Models.Products.Commands;
@@ -60,8 +61,8 @@ public class ProductService : IProductService
 
     public async Task<ProductFilterResult> GetProductByFilter(ProductFilterParams filterParams)
     {
-        var url =
-            $"{ModuleName}?pageId={filterParams.PageId}&take={filterParams.Take}&slug={filterParams.Slug}&title={filterParams.Title}";
+        var url = filterParams.GenerateBaseFilterUrl(ModuleName) +
+            $"&slug={filterParams.Slug}&title={filterParams.Title}";
         if (filterParams.Id is not null)
             url += $"&Id={filterParams.Id}";
         var result = await _httpClient.GetFromJsonAsync<ApiResult<ProductFilterResult>>(url);
