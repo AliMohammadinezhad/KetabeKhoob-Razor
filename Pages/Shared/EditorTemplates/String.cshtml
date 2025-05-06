@@ -1,0 +1,10 @@
+﻿@model string
+
+<div class="form-element-row">
+    <label asp-for="@Model" for="phone-number" class="label-element"></label>
+    <div class="form-element-with-icon">
+        <input asp-for="@Model" type="text" class="input-element" id="phone-number">
+    </div>
+    <span asp-validation-for="@Model"></span>
+
+</div>
