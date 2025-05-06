@@ -599,7 +599,6 @@ hr {
 }
 
 .product-card.product-card-horizontal .product-card-top {
-  -webkit-box-flex: 30%;
       -ms-flex: 30%;
           flex: 30%;
   max-width: 30%;
@@ -610,7 +609,6 @@ hr {
 }
 
 .product-card.product-card-horizontal .product-card-middle {
-  -webkit-box-flex: 70%;
       -ms-flex: 70%;
           flex: 70%;
   max-width: 70%;
@@ -632,7 +630,6 @@ hr {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-flex: 100%;
       -ms-flex: 100%;
           flex: 100%;
   -webkit-box-align: center !important;
