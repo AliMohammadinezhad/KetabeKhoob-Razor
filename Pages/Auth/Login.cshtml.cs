@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using KetabeKhoob.Razor.Infrastructure.RazorUtils;
 using KetabeKhoob.Razor.Models.Auth;
 using KetabeKhoob.Razor.Services.Auth;
+using Newtonsoft.Json;
 
 namespace KetabeKhoob.Razor.Pages.Auth
 {
     [BindProperties]
     [ValidateAntiForgeryToken]
-    public class LoginModel : PageModel
+    public class LoginModel : BaseRazorPage
     {
         [Display(Name = "شماره تلفن")]
         [Required(ErrorMessage = "{0} را وارد کنید.")]
@@ -44,6 +46,8 @@ namespace KetabeKhoob.Razor.Pages.Auth
             if (result.IsSuccess is false)
             {
                 ModelState.AddModelError(nameof(PhoneNumber), result.MetaData.Message);
+                var model = JsonConvert.SerializeObject(result);
+                HttpContext.Response.Cookies.Append("SystemAlert", model);
                 return Page();
             }
 

@@ -28,6 +28,12 @@ public class UserService : IUserService
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
+    public async Task<ApiResult> ChangeUserPassword(ChangeUserPasswordCommand command)
+    {
+        var result = await _httpClient.PutAsJsonAsync($"{ModuleName}/ChangePassword", command);
+        return await result.Content.ReadFromJsonAsync<ApiResult>();
+    }
+
     public async Task<UserDto?> GetUserById(long userId)
     {
         var result = await _httpClient.GetFromJsonAsync<ApiResult<UserDto?>>($"{ModuleName}/{userId}");

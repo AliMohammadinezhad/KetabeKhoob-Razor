@@ -33,6 +33,7 @@ public class BaseRazorPage : PageModel
             return Page();
         return redirectPath;
     }
+
     protected IActionResult RedirectAndShowAlert(ApiResult result, IActionResult redirectPath, IActionResult errorRedirectTo)
     {
 
