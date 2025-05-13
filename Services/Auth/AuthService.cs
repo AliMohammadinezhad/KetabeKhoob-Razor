@@ -19,7 +19,6 @@ public class AuthService : IAuthService
     {
         var result = await _client.PostAsJsonAsync("auth/login", command);
         return await result.Content.ReadFromJsonAsync<ApiResult<LoginResponse>>();
-
     }
 
     public async Task<ApiResult?> Register(RegisterCommand command)
@@ -39,7 +38,7 @@ public class AuthService : IAuthService
     {
         try
         {
-            var result = await _client.DeleteAsync("auth/logout");
+            var result = await _client.DeleteAsync("auth/Logout");
             return await result.Content.ReadFromJsonAsync<ApiResult>();
         }
         catch (Exception e)

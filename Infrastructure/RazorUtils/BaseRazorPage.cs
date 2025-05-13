@@ -114,7 +114,7 @@ public class BaseRazorPage : PageModel
                 var errors = JoinErrors();
                 var modelError = new AjaxResult()
                 {
-                    Status = AppStatusCode.ServerError,
+                    //Status = AppStatusCode.ServerError,
                     Title = "عملیات ناموفق",
                     Message = errors,
                     IsReloadPage = isErrorReloadPage,
@@ -126,7 +126,7 @@ public class BaseRazorPage : PageModel
             var res = await func().ConfigureAwait(false);
             var model = new AjaxResult()
             {
-                Status = res.MetaData.AppStatusCode,
+                //Status = res.MetaData.AppStatusCode,
                 Title = null,
                 Message = res.MetaData.Message
             };
@@ -172,7 +172,7 @@ public class BaseRazorPage : PageModel
             var res = ApiResult.Error(ex.Message);
             var model = new AjaxResult()
             {
-                Status = res.MetaData.AppStatusCode,
+                //Status = res.MetaData.AppStatusCode,
                 Title = null,
                 Message = res.MetaData.Message,
                 IsReloadPage = isErrorReloadPage
@@ -193,7 +193,7 @@ public class BaseRazorPage : PageModel
                 var errors = JoinErrors();
                 var modelError = new AjaxResult()
                 {
-                    Status = AppStatusCode.BadRequest,
+                    //Status = AppStatusCode.BadRequest,
                     Title = "عملیات ناموفق",
                     Message = errors,
                     IsReloadPage = isErrorReloadPage,
@@ -206,7 +206,7 @@ public class BaseRazorPage : PageModel
             var res = await func().ConfigureAwait(false);
             var model = new AjaxResult()
             {
-                Status = res.MetaData.AppStatusCode,
+                //Status = res.MetaData.AppStatusCode,
                 Title = null,
                 IsReloadPage = isSuccessReloadPage,
                 Message = res.MetaData.Message,
@@ -254,7 +254,7 @@ public class BaseRazorPage : PageModel
             var res = ApiResult.Error(ex.Message);
             var model = new AjaxResult()
             {
-                Status = res.MetaData.AppStatusCode,
+                //Status = res.MetaData.AppStatusCode,
                 Title = null,
                 Message = res.MetaData.Message,
                 IsReloadPage = isErrorReloadPage
@@ -269,6 +269,6 @@ public class BaseRazorPage : PageModel
         public string Title { get; set; }
         public bool IsReloadPage { get; set; } = false;
         public object Data { get; set; }
-        public AppStatusCode Status { get; set; }
+        //public AppStatusCode Status { get; set; }
     }
 }

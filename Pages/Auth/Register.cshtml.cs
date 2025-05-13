@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using KetabeKhoob.Razor.Infrastructure.RazorUtils;
 using KetabeKhoob.Razor.Models.Auth;
 using KetabeKhoob.Razor.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ namespace KetabeKhoob.Razor.Pages.Auth
 {
     [BindProperties]
     [ValidateAntiForgeryToken]
-    public class RegisterModel : PageModel
+    public class RegisterModel : BaseRazorPage
     {
         [Display(Name = "شماره تلفن")]
         [Required(ErrorMessage = "{0} را وارد کنید.")]
@@ -45,13 +46,7 @@ namespace KetabeKhoob.Razor.Pages.Auth
                 ConfirmPassword = ConfirmPassword
             });
 
-            if (result?.IsSuccess is false)
-            {
-                ModelState.AddModelError(nameof(PhoneNumber), result.MetaData.Message);
-                return Page();
-            }
-
-            return RedirectToPage("Login");
+            return RedirectAndShowAlert(result, RedirectToPage("Login"));
         }
     }
 }

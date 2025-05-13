@@ -45,7 +45,7 @@ if (!app.Environment.IsDevelopment())
 
 app.Use(async (context, next) =>
 {
-    var token = context.Request.Cookies["token"]?.ToString();
+    var token = context.Request.Cookies["access-token"]?.ToString();
     if (string.IsNullOrWhiteSpace(token) is false)
         context.Request.Headers.Append("Authorization", $"Bearer {token}");
     await next();

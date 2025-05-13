@@ -18,50 +18,53 @@ public static class RegisterServices
     {
         const string baseAddress = "https://localhost:7221/api/";
 
+        services.AddHttpContextAccessor();
+        services.AddScoped<HttpClientAuthorizationDelegatingHandler>();
+
         services.AddHttpClient<IAuthService, AuthService>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
-        });
+        }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         services.AddHttpClient<IBannerService, BannerService>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
-        });
+        }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         services.AddHttpClient<ICategoryService, CategoryService>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
-        });
+        }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         services.AddHttpClient<ICommentService, CommentService>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
-        });
+        }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         services.AddHttpClient<IOrderService, OrderService>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
-        });
+        }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         services.AddHttpClient<IProductService, ProductService>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
-        });
+        }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         services.AddHttpClient<IRoleService, RoleService>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
-        });
+        }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         services.AddHttpClient<ISellerService, SellerService>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
-        });
+        }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         services.AddHttpClient<ISliderService, SliderService>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
-        });
+        }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         services.AddHttpClient<IUserAddressService, UserAddressService>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
-        });
+        }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         services.AddHttpClient<IUserService, UserService>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
-        });
+        }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         return services;
     }
 }
