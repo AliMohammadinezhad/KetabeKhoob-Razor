@@ -65,6 +65,8 @@
     <script src="~/assets/js/theme.js"></script>
     <script src="~/assets/js/custom.js"></script>
     <script src="~/global.js"></script>
+
+    @await RenderSectionAsync("Script", false)
     <partial name="Shared/_ValidationScriptsPartial" />
 
 

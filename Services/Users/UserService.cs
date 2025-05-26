@@ -24,7 +24,32 @@ public class UserService : IUserService
 
     public async Task<ApiResult> EditUser(EditUserCommand command)
     {
-        var result = await _httpClient.PutAsJsonAsync(ModuleName, command);
+        var formData = new MultipartFormDataContent
+        {
+            { new StringContent(command.Name), "Name" },
+            { new StringContent(command.Family), "Family" },
+            { new StringContent(command.Email), "Email" },
+            { new StringContent(command.Gender.ToString()), "Gender" }
+        };
+        if(command.Avatar is not null)
+            formData.Add(new StreamContent(command.Avatar.OpenReadStream()), "Avatar");
+
+        var result = await _httpClient.PutAsync($"{ModuleName}", formData);
+        return await result.Content.ReadFromJsonAsync<ApiResult>();
+    }
+
+    public async Task<ApiResult> EditUserCurrent(EditUserCommand command)
+    {
+        var formData = new MultipartFormDataContent
+        {
+            { new StringContent(command.Name), "Name" },
+            { new StringContent(command.Family), "Family" },
+            { new StringContent(command.Email), "Email" },
+            { new StringContent(command.Gender.ToString()), "Gender" },
+            { new StreamContent(command.Avatar.OpenReadStream()), "Avatar" }
+        };
+
+        var result = await _httpClient.PutAsync($"{ModuleName}/Current", formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 

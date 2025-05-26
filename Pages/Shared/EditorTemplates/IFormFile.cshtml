@@ -1,0 +1,11 @@
+﻿@model Microsoft.AspNetCore.Http.IFormFile
+
+
+<div class="form-element-row">
+    <label asp-for="@Model" for="phone-number" class="label-element"></label>
+    <div class="form-element-with-icon">
+        <input asp-for="@Model" type="file" class="input-element" id="phone-number">
+        <i class="fad fa-photo-video"></i>
+    </div>
+    <span asp-validation-for="@Model"></span>
+</div>
