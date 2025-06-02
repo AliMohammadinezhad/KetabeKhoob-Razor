@@ -155,27 +155,26 @@ function OpenModal(url, name, title) {
     }).done(function (result) {
         result = JSON.parse(result);
 
-        if (result.Status != 1) {
+        if (result.Status !== 1) {
             ErrorAlert("مشکلی رخ داده", result.Message);
             return;
         }
 
         if (result.Data) {
 
-            $('#' + name + ' .modal-body').html(result.Data);
-            $('#' + name + ' .modal-title ').html(title);
+            $(`#${name} .modal-body`).html(result.Data);
+            $(`#${name} .modal-title `).html(title);
 
-            $('#' + name).modal({
+            $(`#${name}`).modal({
                 backdrop: 'static',
                 keyboard: true
-            },
-                'show');
+            }, 'show');
 
             $('#' + name + ' .modal-dialog').removeClass('modal-lg modal-xl modal-sm modal-full');
             $('#' + name + ' .modal-dialog').addClass(modalSize);
 
             loadCkeditor4();
-            const form = $("#" + name + ' form');
+            const form = $(`#${name} form`);
             if (form) {
                 $.validator.unobtrusive.parse(form);
             }
@@ -185,7 +184,8 @@ function OpenModal(url, name, title) {
 }
 
 function CallBackHandler(result) {
-    if (result.Status == 1) {
+    console.log(result);
+    if (result.Status === 0) {
         Success(result.Title, result.Message, result.IsReloadPage);
     } else {
         ErrorAlert(result.Title, result.Message, result.IsReloadPage);

@@ -2,7 +2,7 @@
 
 public enum GenderDto
 {
-    None,
     Male,
     Female,
+    None,
 }

@@ -1,4 +1,5 @@
-﻿using KetabeKhoob.Razor.Services.Auth;
+﻿using KetabeKhoob.Razor.Infrastructure.RazorUtils;
+using KetabeKhoob.Razor.Services.Auth;
 using KetabeKhoob.Razor.Services.Banners;
 using KetabeKhoob.Razor.Services.Categories;
 using KetabeKhoob.Razor.Services.Comments;
@@ -20,6 +21,9 @@ public static class RegisterServices
 
         services.AddHttpContextAccessor();
         services.AddScoped<HttpClientAuthorizationDelegatingHandler>();
+        services.AddTransient<IRenderViewToString, RenderViewToString>();
+        services.AddAutoMapper(typeof(RegisterServices).Assembly);
+
 
         services.AddHttpClient<IAuthService, AuthService>(client =>
         {

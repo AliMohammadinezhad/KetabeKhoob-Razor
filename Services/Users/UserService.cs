@@ -27,6 +27,7 @@ public class UserService : IUserService
         var formData = new MultipartFormDataContent
         {
             { new StringContent(command.Name), "Name" },
+            { new StringContent(command.PhoneNumber), "PhoneNumber" },
             { new StringContent(command.Family), "Family" },
             { new StringContent(command.Email), "Email" },
             { new StringContent(command.Gender.ToString()), "Gender" }
@@ -43,11 +44,13 @@ public class UserService : IUserService
         var formData = new MultipartFormDataContent
         {
             { new StringContent(command.Name), "Name" },
+            { new StringContent(command.PhoneNumber), "PhoneNumber" },
             { new StringContent(command.Family), "Family" },
             { new StringContent(command.Email), "Email" },
-            { new StringContent(command.Gender.ToString()), "Gender" },
-            { new StreamContent(command.Avatar.OpenReadStream()), "Avatar" }
+            { new StringContent(command.Gender.ToString()), "Gender" }
         };
+        if (command.Avatar is not null)
+            formData.Add(new StreamContent(command.Avatar.OpenReadStream()), "Avatar");
 
         var result = await _httpClient.PutAsync($"{ModuleName}/Current", formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
