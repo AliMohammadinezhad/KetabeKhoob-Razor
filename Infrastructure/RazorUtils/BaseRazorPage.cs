@@ -115,7 +115,7 @@ public class BaseRazorPage : PageModel
                 var errors = JoinErrors();
                 var modelError = new AjaxResult()
                 {
-                    //Status = AppStatusCode.ServerError,
+                    Status = AppStatusCode.ServerError,
                     Title = "عملیات ناموفق",
                     Message = errors,
                     IsReloadPage = isErrorReloadPage,
@@ -127,7 +127,7 @@ public class BaseRazorPage : PageModel
             var res = await func().ConfigureAwait(false);
             var model = new AjaxResult()
             {
-                //Status = res.MetaData.AppStatusCode,
+                Status = res.MetaData.AppStatusCode,
                 Title = null,
                 Message = res.MetaData.Message
             };

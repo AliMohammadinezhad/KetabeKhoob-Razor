@@ -184,10 +184,11 @@ function OpenModal(url, name, title) {
 }
 
 function CallBackHandler(result) {
-    console.log(result);
-    if (result.Status === 0) {
+
+    if (result.Status === 1) {
         Success(result.Title, result.Message, result.IsReloadPage);
-    } else {
+    }
+    else {
         ErrorAlert(result.Title, result.Message, result.IsReloadPage);
     }
 

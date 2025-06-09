@@ -25,10 +25,19 @@
                                         <i class="fa fa-user"></i>
                                         @address?.Name @address?.Family
                                     </span>
-                                    <a href="#" class="link--with-border-bottom edit-address-btn" data-toggle="modal" data-target="#editAddressModal">
+                                    <a onclick="OpenModal('@Url.Page("index", "ShowEditPage", new {addressId = address.Id})', 'defaultModal', 'ویرایش آدرس')"
+                                       class="link--with-border-bottom edit-address-btn">
                                         ویرایش
                                         <i class="fa fa-edit"></i>
                                     </a>
+                                    <form method="post" class="delete-address">
+                                        <input type="hidden" name="addressId" value="@address.Id"/>
+                                        <button onclick="return confirm('آیا از حذف اطمینان دارید؟')"
+                                                class="link--with-border-bottom">
+                                            حذف
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </label>
                             </div>
                         </div>
