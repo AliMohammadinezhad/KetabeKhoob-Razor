@@ -45,6 +45,15 @@ public class IndexModel : BaseRazorPage
         }, true);
     }
 
+    public async Task<IActionResult> OnGetSetActiveAddress(long addressId)
+    {
+        return await AjaxTryCatch(async () =>
+        {
+            var result = await _userAddress.SetActiveAddress(addressId);
+            return result;
+        }, true);
+    }
+
     public async Task<IActionResult> OnPostEditAddress(EditUserAddressViewModel viewModel)
     {
         return await AjaxTryCatch(async () =>
