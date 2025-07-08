@@ -13,7 +13,6 @@ namespace KetabeKhoob.Razor.Pages.Profile;
 
 
 [BindProperties]
-[Authorize]
 public class EditModel : BaseRazorPage
 {
     private readonly IUserService _userService;

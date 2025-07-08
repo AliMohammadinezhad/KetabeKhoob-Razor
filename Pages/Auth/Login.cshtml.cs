@@ -22,6 +22,7 @@ namespace KetabeKhoob.Razor.Pages.Auth
         [DataType(DataType.Password)]
         [MinLength(5, ErrorMessage = "کلمه عبور باید بزرگتر از 5 کاراکتر باشد.")]
         public string Password { get; set; }
+        public string RedirectTo { get; set; }
 
         private readonly IAuthService _authService;
         public LoginModel(IAuthService authService)
@@ -29,10 +30,12 @@ namespace KetabeKhoob.Razor.Pages.Auth
             _authService = authService;
         }
 
-        public Task<IActionResult> OnGet()
+        public Task<IActionResult> OnGet(string redirectTo)
         {
             if(User.Identity.IsAuthenticated)
                 return Task.FromResult<IActionResult>(Redirect("/"));
+
+            RedirectTo = redirectTo;
             return Task.FromResult<IActionResult>(Page());
         }
 
@@ -55,6 +58,8 @@ namespace KetabeKhoob.Razor.Pages.Auth
             var refreshToken = result.Data.RefreshToken;
             HttpContext.Response.Cookies.Append("access-token", accessToken);
             HttpContext.Response.Cookies.Append("refresh-token", refreshToken);
+            if (string.IsNullOrWhiteSpace(RedirectTo) is false)
+                return LocalRedirect(RedirectTo);
             return Redirect("/");
         }
     }

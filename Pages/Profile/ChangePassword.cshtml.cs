@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace KetabeKhoob.Razor.Pages.Profile
 {
     [BindProperties]
-    [Authorize]
     public class ChangePasswordModel : BaseRazorPage
     {
         private readonly IUserService _userService;

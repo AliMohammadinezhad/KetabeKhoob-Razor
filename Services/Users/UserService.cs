@@ -49,8 +49,8 @@ public class UserService : IUserService
             { new StringContent(command.Email), "Email" },
             { new StringContent(command.Gender.ToString()), "Gender" }
         };
-        if (command.Avatar is not null)
-            formData.Add(new StreamContent(command.Avatar.OpenReadStream()), "Avatar");
+        if (command.Avatar is not null && command.Avatar.Length > 0)
+            formData.Add(new StreamContent(command.Avatar.OpenReadStream()), "Avatar", command.Avatar.FileName);
 
         var result = await _httpClient.PutAsync($"{ModuleName}/Current", formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();

@@ -16,6 +16,7 @@
             @ViewData["Title"]
         </div>
     <form method="post">
+        @Html.HiddenFor(x => x.RedirectTo)
         @Html.EditorFor(x => x.PhoneNumber)
         @Html.EditorFor(x => x.Password)
         <div class="form-element-row text-left">

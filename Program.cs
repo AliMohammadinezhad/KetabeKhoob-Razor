@@ -7,7 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages()
-    .AddRazorRuntimeCompilation();
+    .AddRazorRuntimeCompilation()
+    .AddRazorPagesOptions(options =>
+    {
+        options.Conventions.AuthorizeFolder("/Profile", "ProfileLogin");
+    });
 
 builder.Services.RegisterApiServices();
 
@@ -33,6 +37,14 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ProfileLogin", policyBuilder =>
+    {
+        policyBuilder.RequireAuthenticatedUser();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -56,6 +68,17 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.Use(async (context, next) =>
+{
+    await next();
+    var status = context.Response.StatusCode;
+    if (status == 401)
+    {
+        var path = context.Request.Path;
+        context.Response.Redirect($"/auth/Login?RedirectTo={path}");
+    }
+});
 
 app.UseAuthentication();
 
