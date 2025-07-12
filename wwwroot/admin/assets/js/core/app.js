@@ -584,7 +584,7 @@
 				debug: false,
 				fallbackLng: "fa",
 				backend: {
-					loadPath: "../../assets/data/locales/{{lng}}.json"
+					loadPath: "/admin/assets/data/locales/{{lng}}.json"
 				},
 				returnObjects: true
 			},
