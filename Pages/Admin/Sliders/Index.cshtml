@@ -1,0 +1,45 @@
+﻿@page
+@using KetabeKhoob.Razor.Infrastructure
+@model KetabeKhoob.Razor.Pages.Admin.Sliders.IndexModel
+@{
+}
+<section>
+    <h2>مدیریت اسلایدر ها</h2>
+    <a asp-page="Add" class="btn btn-success mb-2">افزودن اسلایدر</a>
+    <div class="table-responsive card card-body p-0 text-center">
+        <table class="table table-bordered mb-0">
+            <thead>
+                <tr>
+                    <th>عکس</th>
+                    <th>عنوان</th>
+                    <th>لینک</th>
+                    <th>موقعیت</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var slider in Model.Sliders)
+            {
+                <tr>
+                    <td>
+                        <img src="@Directories.GetSliderImage(slider.ImageName)" style="max-width: 250px" alt="@slider.Title"/>
+                    </td>
+                    <td>@slider.Title</td>
+                    <td>@slider.Link</td>
+                    <td>@slider.Position</td>
+                    <td>
+                        <a asp-page="Edit" class="btn btn-info btn-sm" asp-route-id="@slider.Id">ویرایش</a>
+                        <delete-item url="@Url.Page("Index", "DeleteSlider", new{sliderId = slider.Id})">حذف</delete-item>
+                    </td>
+                </tr>
+            }
+            @if (Model.Sliders.Any() == false)
+            {
+                <tr>
+                    <td colspan="4" class="text-center">موردی برای نمایش وجود ندارد.</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>
