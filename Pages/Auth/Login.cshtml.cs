@@ -22,7 +22,7 @@ namespace KetabeKhoob.Razor.Pages.Auth
         [DataType(DataType.Password)]
         [MinLength(5, ErrorMessage = "کلمه عبور باید بزرگتر از 5 کاراکتر باشد.")]
         public string Password { get; set; }
-        public string RedirectTo { get; set; }
+        public string? RedirectTo { get; set; }
 
         private readonly IAuthService _authService;
         public LoginModel(IAuthService authService)
@@ -34,8 +34,8 @@ namespace KetabeKhoob.Razor.Pages.Auth
         {
             if(User.Identity.IsAuthenticated)
                 return Task.FromResult<IActionResult>(Redirect("/"));
-
-            RedirectTo = redirectTo;
+            if (string.IsNullOrWhiteSpace(redirectTo) == false)
+                RedirectTo = redirectTo;
             return Task.FromResult<IActionResult>(Page());
         }
 
