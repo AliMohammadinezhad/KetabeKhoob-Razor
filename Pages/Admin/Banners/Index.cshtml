@@ -1,0 +1,51 @@
+﻿@page "{handler?}"
+@using KetabeKhoob.Razor.Infrastructure
+@using KetabeKhoob.Razor.TagHelpers
+@model KetabeKhoob.Razor.Pages.Admin.Banners.IndexModel
+@{
+    ViewData["Title"] = "مدیریت بنر ها";
+}
+<section>
+    <h2>@ViewData["Title"]</h2>
+    <open-modal 
+        modal-title="افزودن بنر"
+        url="@Url.Page("Index", "renderAddPage")">افزودن اسلایدر</open-modal>
+    <div class="table-responsive card card-body p-0 text-center mt-2">
+        <table class="table table-bordered mb-0">
+            <thead>
+                <tr>
+                    <th>عکس</th>
+                    <th>موقعیت</th>
+                    <th>لینک</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var banner in Model.Banners)
+                {
+                    <tr>
+                        <td>
+                            <img src="@Directories.GetBannerImage(banner.ImageName)" style="max-width: 250px" alt="@banner.Id" />
+                        </td>
+                        <td>@banner.Position</td>
+                        <td>@banner.Link</td>
+                        <td>
+                            <delete-item
+                                url="@Url.Page("Index", "Delete", new { id = @banner.Id })">حذف</delete-item>
+                            <open-modal 
+                                modal-title="ویرایش بنر"
+                                class="btn btn-primary btn-sm"
+                                url="@Url.Page("Index", "renderEditPage", new { id = @banner.Id })">ویرایش</open-modal>
+                        </td>
+                    </tr>
+                }
+                @if (Model.Banners.Any() == false)
+                {
+                    <tr>
+                        <td colspan="4" class="text-center">موردی برای نمایش وجود ندارد.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

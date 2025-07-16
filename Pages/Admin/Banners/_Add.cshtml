@@ -1,0 +1,18 @@
+﻿@model KetabeKhoob.Razor.Models.Banners.CreateBannerCommand
+<form method="post" data-ajax="true" asp-page="Index" asp-page-handler="CreateBanner" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            @Html.EditorFor(x => x.Link)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(x => x.Position)
+        </div>
+        <div class="col-md-12">
+            @Html.EditorFor(x => x.ImageFile)
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">
+        ذخیره تغییرات
+    </button>
+</form>
+

@@ -12,23 +12,24 @@ public class BannerService : IBannerService
         _httpClient = httpClient;
     }
 
-    public async Task<ApiResult?> CreateBanner(CreateBannerCommand command)
+    public async Task<ApiResult> CreateBanner(CreateBannerCommand command)
     {
         var formData = new MultipartFormDataContent();
         formData.Add(new StringContent(command.Link), "Link");
         formData.Add(new StringContent(command.Position.ToString()), "Position");
-        formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile");
+        formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
         var result = await _httpClient.PostAsync("banner", formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
-    public async Task<ApiResult?> EditBanner(EditBannerCommand command)
+    public async Task<ApiResult> EditBanner(EditBannerCommand command)
     {
         var formData = new MultipartFormDataContent();
         formData.Add(new StringContent(command.Id.ToString()), "Id");
         formData.Add(new StringContent(command.Link), "Link");
         formData.Add(new StringContent(command.Position.ToString()), "Position");
-        formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile");
+        if(command.ImageFile != null && command.ImageFile.Length > 0)
+            formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
         var result = await _httpClient.PutAsync("banner", formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
