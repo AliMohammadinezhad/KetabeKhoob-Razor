@@ -1,4 +1,5 @@
-﻿using KetabeKhoob.Razor.Models;
+﻿using KetabeKhoob.Razor.Infrastructure.Utils.CustomValidation.IFormFile;
+using KetabeKhoob.Razor.Models;
 using KetabeKhoob.Razor.Models.Sliders;
 
 namespace KetabeKhoob.Razor.Services.Sliders;
@@ -16,13 +17,27 @@ public class SliderService : ISliderService
 
     public async Task<ApiResult> CreateSlider(CreateSliderCommand command)
     {
-        var result = await _httpClient.PostAsJsonAsync(ModuleName, command);
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(command.Link), "Link");
+        formData.Add(new StringContent(command.Title), "Title");
+        formData.Add(new StringContent(command.Position.ToString()), "Position");
+        formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
+        var result = await _httpClient.PostAsync(ModuleName, formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
     public async Task<ApiResult> EditSlider(EditSliderCommand command)
     {
-        var result = await _httpClient.PutAsJsonAsync(ModuleName, command);
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(command.Link), "Link");
+        formData.Add(new StringContent(command.Title), "Title");
+        formData.Add(new StringContent(command.Position.ToString()), "Position");
+        formData.Add(new StringContent(command.Id.ToString()), "Id");
+
+        if (command.ImageFile.IsImage() && command.ImageFile.Length > 0 && command.ImageFile != null)
+            formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
+        
+        var result = await _httpClient.PutAsync(ModuleName, formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
