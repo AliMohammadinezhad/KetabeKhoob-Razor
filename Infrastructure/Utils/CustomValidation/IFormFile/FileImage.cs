@@ -9,10 +9,7 @@ namespace KetabeKhoob.Razor.Infrastructure.Utils.CustomValidation.IFormFile
         public override bool IsValid(object? value)
         {
             var fileInput = value as Microsoft.AspNetCore.Http.IFormFile;
-            if (fileInput == null)
-                return true;
-
-            return fileInput.IsImage();
+            return fileInput == null || fileInput.IsImage();
         }
 
         public void AddValidation(ClientModelValidationContext context)
@@ -27,15 +24,15 @@ namespace KetabeKhoob.Razor.Infrastructure.Utils.CustomValidation.IFormFile
     {
         public static bool IsImage(this Microsoft.AspNetCore.Http.IFormFile file)
         {
-            try
-            {
-                var img = Image.FromStream(file.OpenReadStream());
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+                try
+                {
+                    var img = Image.FromStream(file.OpenReadStream());
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
         }
     }
 }
