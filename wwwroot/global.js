@@ -74,7 +74,7 @@ function DeleteItem(url, description) {
         title: "آیا از حذف اطمینان دارید ؟",
         text: description,
         icon: "warning",
-        confirmButtonText: "بله ، مطمعا هستم",
+        confirmButtonText: "بله ، مطمئن هستم",
         cancelButtonText: "خیر",
         showCancelButton: true,
     }).then((result) => {
