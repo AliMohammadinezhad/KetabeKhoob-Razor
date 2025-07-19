@@ -11,8 +11,8 @@ public interface ICategoryService
     Task<ApiResult> AddChild(AddChildCategoryCommand command);
 
     Task<CategoryDto?> GetCategoryById(long categoryId);
-    Task<List<CategoryDto?>> GetCategories();
-    Task<List<ChildCategoryDto?>> GetChildCategories(long parentCategoryId);
+    Task<List<CategoryDto>> GetCategories();
+    Task<List<ChildCategoryDto>?> GetChildCategories(long parentCategoryId);
 
 
 }

@@ -1,0 +1,74 @@
+﻿@page
+@model KetabeKhoob.Razor.Pages.Admin.Categories.IndexModel
+@{
+    ViewData["Title"] = "مدیریت گروه ها";
+}
+
+<section>
+    <h2>@ViewData["Title"]</h2>
+    <a asp-page="Add" class="btn btn-success mb-2">افزودن گروه</a>
+    <div class="table-responsive card card-body p-0 text-center">
+        <table class="table table-bordered mb-0">
+            <thead>
+                <tr>
+                    <th>عنوان</th>
+                    <th>Slug</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var category in Model.Categories!)
+            {
+                <tr>
+                    <td>@category.Title</td>
+                    <td>@category.Slug</td>
+                    <td>
+                        <a asp-page="Edit" class="btn btn-info btn-sm" asp-route-id="@category.Id">ویرایش</a>
+                        <a asp-page="Add" class="btn btn-success btn-sm" asp-route-parentId="@category.Id">افزودن زیرگروه</a>
+                        <delete-item url="@Url.Page("Index", "Delete", new { id = category.Id })">حذف</delete-item>
+                    </td>
+                </tr>
+
+                @if (category.Children != null)
+                {
+                        foreach (var childCategory in category.Children)
+                        {
+                            <tr style="background: #ededed">
+                                <td>@childCategory?.Title</td>
+                                <td>@childCategory?.Slug</td>
+                                <td>
+                                    <a asp-page="Edit" class="btn btn-info btn-sm" asp-route-id="@childCategory?.Id">ویرایش</a>
+                                    <a asp-page="Add" class="btn btn-success btn-sm" asp-route-parentId="@childCategory?.Id">افزودن زیرگروه</a>
+                                    <delete-item url="@Url.Page("Index", "Delete", new { id = childCategory?.Id })">حذف</delete-item>
+                                </td>
+                            </tr>
+                            if (childCategory?.Children != null)
+                            {
+                                foreach (var secondaryChildCategory in childCategory.Children)
+                                {
+                                    <tr style="background: #e9e0e0">
+                                        <td>@secondaryChildCategory?.Title</td>
+                                        <td>@secondaryChildCategory?.Slug</td>
+                                        <td>
+                                            <a asp-page="Edit" class="btn btn-info btn-sm" asp-route-id="@secondaryChildCategory?.Id">ویرایش</a>
+                                            <delete-item url="@Url.Page("Index", "Delete", new { id = secondaryChildCategory?.Id })">حذف</delete-item>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+                }
+
+                @if (Model.Categories.Any() is false)
+                {
+                    <tr>
+                        <td colspan="4" class="text-center">موردی برای نمایش وجود ندارد.</td>
+                    </tr>
+                }
+                </tbody>
+        </table>
+    </div>
+</section>

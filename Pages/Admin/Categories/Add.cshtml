@@ -1,0 +1,24 @@
+﻿@page "{parentId?}"
+@model KetabeKhoob.Razor.Pages.Admin.Categories.AddModel
+@{
+    ViewData["Title"] = "مدیریت گروه ها";
+}
+<h3>@ViewData["Title"]</h3>
+
+<form class="card card-danger" method="post">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                @Html.EditorFor(x => x.Title)
+            </div>
+            <div class="col-md-6">
+                @Html.EditorFor(x => x.Slug)
+            </div>
+                @Html.EditorFor(x => x.SeoData)
+        </div>
+    </div>
+    <div class="card-footer text-right">
+        <cancel back-url="@Url.Page("Index")"></cancel>
+        <submit />
+    </div>
+</form>

@@ -1,9 +1,9 @@
 ﻿namespace KetabeKhoob.Razor.Models.Categories;
 
-public class SecondaryChildCategoryDto
+public class SecondaryChildCategoryDto : BaseDto
 {
-    public string Title { get; private set; }
-    public string Slug { get; private set; }
-    public SeoData SeoData { get; private set; }
-    public long ParentId { get; private set; }
+    public string Title { get; set; }
+    public string Slug { get; set; }
+    public SeoData SeoData { get; set; }
+    public long ParentId { get; set; }
 }

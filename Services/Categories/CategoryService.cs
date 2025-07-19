@@ -42,13 +42,13 @@ public class CategoryService : ICategoryService
         return result?.Data;
     }
 
-    public async Task<List<CategoryDto?>> GetCategories()
+    public async Task<List<CategoryDto>> GetCategories()
     {
-        var result = await _httpClient.GetFromJsonAsync<ApiResult<List<CategoryDto>>>("Category");
+        var result = await _httpClient.GetFromJsonAsync<ApiResult<List<CategoryDto>?>>("Category");
         return result?.Data;
     }
 
-    public async Task<List<ChildCategoryDto?>> GetChildCategories(long parentCategoryId)
+    public async Task<List<ChildCategoryDto>?> GetChildCategories(long parentCategoryId)
     {
         var result = await _httpClient
             .GetFromJsonAsync<ApiResult<List<ChildCategoryDto>>>($"Category/GetChild/{parentCategoryId}");
