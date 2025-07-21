@@ -1,0 +1,46 @@
+﻿@page "{id}"
+@using KetabeKhoob.Razor.Infrastructure
+@model KetabeKhoob.Razor.Pages.Admin.Roles.EditModel
+@{
+    ViewData["Title"] = "ویرایش نقش";
+}
+<h2>@ViewData["Title"]</h2>
+<form class="card" method="post">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                @Html.EditorFor(x => x.Title)
+            </div>
+            <div class="col-md-6">
+                <label>دسترسی ها</label>
+                <div class="row">
+                    @foreach (var permission in Enum.GetNames(typeof(Permission)))
+                    {
+                        var id = Guid.NewGuid();
+                        <div class="col-4">
+                        <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
+                            
+                            <label class="mb-0 d-block">@permission</label>
+                            <input type="checkbox" 
+                                   checked="@(Model.Permissions.Any(x => x.ToString() == permission))" 
+                                   value="@permission"
+                                   class="custom-control-input"
+                                   name="permissions"
+                                   id="@id">
+                            
+                            <label class="custom-control-label" for="@id">
+                                <span class="switch-icon-left"><i class="bx bx-check"></i></span>
+                                <span class="switch-icon-right"><i class="bx bx-check"></i></span>
+                            </label>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-left">
+        <cancel></cancel>
+        <submit />
+    </div>
+</form>

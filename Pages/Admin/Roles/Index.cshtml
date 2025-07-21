@@ -1,0 +1,40 @@
+﻿@page
+@model KetabeKhoob.Razor.Pages.Admin.Roles.IndexModel
+@{
+    ViewData["Title"] = "مدیریت نقش ها";
+    ViewData["Selected"] = "roles";
+}
+<section>
+    <h2>@ViewData["Title"]</h2>
+    <a asp-page="Add" class="btn btn-success mb-2">افزودن نقش</a>
+    <div class="table-responsive card card-body p-0 text-center">
+        <table class="table table-bordered mb-0">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>عنوان</th>
+                <th>عملیات</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var role in Model.Roles)
+            {
+                <tr>
+                    <td>@role?.Id</td>
+                    <td>@role?.Title</td>
+                    <td>
+                        <a asp-page="Edit" class="btn btn-info btn-sm" asp-route-id="@role.Id">ویرایش</a>
+                        <delete-item url="@Url.Page("Index", "DeleteRole", new{roleId = role.Id})">حذف</delete-item>
+                    </td>
+                </tr>
+            }
+            @if (Model.Roles.Any() == false)
+            {
+                <tr>
+                    <td colspan="4" class="text-center">موردی برای نمایش وجود ندارد.</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>
