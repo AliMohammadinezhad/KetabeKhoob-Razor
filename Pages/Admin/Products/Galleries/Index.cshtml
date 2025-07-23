@@ -1,0 +1,73 @@
+﻿@page "{productId}"
+@using KetabeKhoob.Razor.Infrastructure
+@using KetabeKhoob.Razor.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model KetabeKhoob.Razor.Pages.Admin.Products.Galleries.IndexModel
+@{
+    ViewData["Title"] = "مدیریت تصاویر محصولات";
+    ViewData["Selected"] = "products";
+}
+<section>
+    <h2>@ViewData["Title"]</h2>
+    <a href="#" data-toggle="modal" data-target="#exampleModal" class="btn btn-success mb-2">افزودن عکس</a>
+    <div class="table-responsive card card-body p-0 text-center">
+        <table class="table table-bordered mb-0">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>عکس</th>
+                <th>ترتیب نمایش</th>
+                <th>عملیات</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var image in Model.Images.OrderByDescending(x => x.Order))
+            {
+                <tr>
+                    <td>@image.Id</td>
+                    <td>
+                        <img src="@Directories.GetProductImageGallery(image.ImageName)" style="max-width: 250px" alt="@image.ImageName"/>
+                    </td>
+                    <td>@image.Order</td>
+                    <td>
+                        <delete-item url="@Url.Page("Index", "DeleteImage", new{imageId = image.Id})">حذف</delete-item>
+                    </td>
+                </tr>
+            }
+            @if (Model.Images.Any() == false)
+            {
+                <tr>
+                    <td colspan="4" class="text-center">موردی برای نمایش وجود ندارد.</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <form method="post" data-ajax="true" enctype="multipart/form-data" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">افزودن عکس</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.EditorFor(f=>f.ImageFile)
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(f=>f.Order)
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                <button type="submit" class="btn btn-success">ذخیره اطلاعات</button>
+            </div>
+        </form>
+    </div>
+</div>

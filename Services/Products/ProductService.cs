@@ -1,10 +1,12 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Globalization;
+using System.Net.Http.Headers;
 using System.Text;
 using KetabeKhoob.Razor.Infrastructure;
 using KetabeKhoob.Razor.Models;
 using KetabeKhoob.Razor.Models.Products;
 using KetabeKhoob.Razor.Models.Products.Commands;
 using Newtonsoft.Json;
+using static System.String;
 
 namespace KetabeKhoob.Razor.Services.Products;
 
@@ -20,20 +22,60 @@ public class ProductService : IProductService
 
     public async Task<ApiResult> CreateProduct(CreateProductCommand command)
     {
-        var result = await _httpClient.PostAsJsonAsync(ModuleName, command);
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(command.Slug), "Slug");
+        formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
+        formData.Add(new StringContent(command.Title), "Title");
+        formData.Add(new StringContent(command.Description), "Description");
+        formData.Add(new StringContent(command.CategoryId.ToString()), "CategoryId");
+        formData.Add(new StringContent(command.SubCategoryId.ToString()), "SubCategoryId");
+        formData.Add(new StringContent(command.SecondarySubCategoryId.ToString() ?? Empty), "SecondarySubCategoryId");
+        formData.Add(new StringContent(command.SeoData.MetaTitle ?? Empty), "SeoData.MetaTitle");
+        formData.Add(new StringContent(command.SeoData.Canonical ?? Empty), "SeoData.Canonical");
+        formData.Add(new StringContent(command.SeoData.MetaKeyWords ?? Empty), "SeoData.MetaKeyWords");
+        formData.Add(new StringContent(command.SeoData.MetaDescription ?? Empty), "SeoData.MetaDescription");
+        formData.Add(new StringContent(command.SeoData.IndexPage.ToString()), "SeoData.IndexPage");
+        formData.Add(new StringContent(command.SeoData.Schema ?? Empty), "SeoData.Schema");
+
+        var specifications = JsonConvert.SerializeObject(command.Specifications);
+        formData.Add(new StringContent(specifications, Encoding.UTF8, "application/json"), "Specifications");
+
+
+        var result = await _httpClient.PostAsync(ModuleName, formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
     public async Task<ApiResult> EditProduct(EditProductCommand command)
     {
-        var result = await _httpClient.PutAsJsonAsync(ModuleName, command);
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StringContent(command.ProductId.ToString()), "ProductId");
+        formData.Add(new StringContent(command.Slug), "Slug");
+        if (command.ImageFile != null)
+            formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
+        formData.Add(new StringContent(command.Title), "Title");
+        formData.Add(new StringContent(command.Description), "Description");
+        formData.Add(new StringContent(command.CategoryId.ToString()), "CategoryId");
+        formData.Add(new StringContent(command.SubCategoryId.ToString()), "SubCategoryId");
+        formData.Add(new StringContent(command.SecondarySubCategoryId.ToString() ?? Empty), "SecondarySubCategoryId");
+        formData.Add(new StringContent(command.SeoData.MetaTitle ?? Empty), "SeoData.MetaTitle");
+        formData.Add(new StringContent(command.SeoData.Canonical ?? Empty), "SeoData.Canonical");
+        formData.Add(new StringContent(command.SeoData.MetaKeyWords ?? Empty), "SeoData.MetaKeyWords");
+        formData.Add(new StringContent(command.SeoData.MetaDescription ?? Empty), "SeoData.MetaDescription");
+        formData.Add(new StringContent(command.SeoData.IndexPage.ToString()), "SeoData.IndexPage");
+        formData.Add(new StringContent(command.SeoData.Schema ?? Empty), "SeoData.Schema");
+
+        var specifications = JsonConvert.SerializeObject(command.Specifications);
+        formData.Add(new StringContent(specifications, Encoding.UTF8, "application/json"), "Specifications");
+
+
+        var result = await _httpClient.PutAsync(ModuleName, formData);
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 
     public async Task<ApiResult> DeleteProductImage(DeleteProductImageCommand command)
     {
         var json = JsonConvert.SerializeObject(command);
-        var httpMessage = new HttpRequestMessage(HttpMethod.Delete, ModuleName)
+        var httpMessage = new HttpRequestMessage(HttpMethod.Delete, $"{ModuleName}/Images")
         {
             Content = new StringContent(json, Encoding.UTF8, new MediaTypeHeaderValue("application/json"))
         };
@@ -43,7 +85,17 @@ public class ProductService : IProductService
 
     public async Task<ApiResult> AddProductImage(AddProductImageCommand command)
     {
-        var result = await _httpClient.PostAsJsonAsync($"{ModuleName}/Images", command);
+        var formData = new MultipartFormDataContent();
+        formData.Add(new StreamContent(command.ImageFile.OpenReadStream()), "ImageFile", command.ImageFile.FileName);
+        formData.Add(new StringContent(command.ProductId.ToString()), "ProductId");
+        formData.Add(new StringContent(command.Order.ToString()), "Order");
+        var result = await _httpClient.PostAsync($"{ModuleName}/Images", formData);
+        return await result.Content.ReadFromJsonAsync<ApiResult>();
+    }
+
+    public async Task<ApiResult> DeleteProduct(long productId)
+    {
+        var result = await _httpClient.DeleteAsync($"{ModuleName}/{productId}");
         return await result.Content.ReadFromJsonAsync<ApiResult>();
     }
 

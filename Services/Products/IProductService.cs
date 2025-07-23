@@ -10,6 +10,7 @@ public interface IProductService
     Task<ApiResult> EditProduct(EditProductCommand command);
     Task<ApiResult> DeleteProductImage(DeleteProductImageCommand command);
     Task<ApiResult> AddProductImage(AddProductImageCommand command);
+    Task<ApiResult> DeleteProduct(long productId);
 
     Task<ProductDto?> GetProductById(long productId);
     Task<ProductDto?> GetProductBySlug(string slug);
