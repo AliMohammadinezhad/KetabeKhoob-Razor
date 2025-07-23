@@ -56,8 +56,16 @@ namespace KetabeKhoob.Razor.Pages.Auth
 
             var accessToken = result.Data.AccessToken;
             var refreshToken = result.Data.RefreshToken;
-            HttpContext.Response.Cookies.Append("access-token", accessToken);
-            HttpContext.Response.Cookies.Append("refresh-token", refreshToken);
+            HttpContext.Response.Cookies.Append("access-token", accessToken, new CookieOptions()
+            {
+                HttpOnly = true,
+                Expires = DateTimeOffset.Now.AddDays(7)
+            });
+            HttpContext.Response.Cookies.Append("refresh-token", refreshToken, new CookieOptions()
+            {
+                HttpOnly = true,
+                Expires = DateTimeOffset.Now.AddDays(10)
+            });
             if (string.IsNullOrWhiteSpace(RedirectTo) is false)
                 return LocalRedirect(RedirectTo);
             return Redirect("/");
