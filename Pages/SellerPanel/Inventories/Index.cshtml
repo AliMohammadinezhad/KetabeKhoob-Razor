@@ -1,0 +1,53 @@
+﻿@page "{handler?}"
+@using KetabeKhoob.Razor.Infrastructure
+@model KetabeKhoob.Razor.Pages.SellerPanel.Inventories.IndexModel
+@{
+    ViewData["Title"] = "مدیریت محصولات";
+    ViewData["Selected"] = "Inventories";
+}
+<section>
+    <a asp-page="Add" class="btn btn-success mb-2">افزودن محصول</a>
+    <div class="table-responsive card card-body p-0 text-center">
+        <table class="table table-bordered mb-0">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>عکس محصول</th>
+                <th>عنوان محصول</th>
+                <th>قیمت</th>
+                <th>درصد تخفیف</th>
+                <th>تعداد موجود</th>
+                <th>عملیات</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var inventory in Model.Inventories)
+            {
+                <tr>
+                    <td>@inventory.Id</td>
+                    <td>
+                        <img src="@Directories.GetProductImage(inventory.ProductImage)" style="max-width: 250px" alt="@inventory.ProductTitle"/>
+                    </td>
+                    <td>@inventory.ProductTitle</td>
+                    <td>@inventory.Price.ToString("#,0") تومان</td>
+                    <td>@inventory.DiscountPercentage %</td>
+                    <td>@inventory.Count</td>
+                    <td>
+                        <open-modal 
+                            class="btn btn-primary btn-sm"
+                            url="@Url.Page("Index", "EditPage", new{inventoryId = inventory.Id})"
+                            modal-title="ویرایش محصول">ویرایش</open-modal>
+@*                         <delete-item url="@Url.Page("Index", "DeleteSlider", new { inventoryId = inventory.Id })">حذف</delete-item> *@
+                    </td>
+                </tr>
+            }
+            @if (Model.Inventories.Any() == false)
+            {
+                <tr>
+                    <td colspan="7" class="text-center">موردی برای نمایش وجود ندارد.</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

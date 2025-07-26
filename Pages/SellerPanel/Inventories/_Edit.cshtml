@@ -1,0 +1,23 @@
+﻿@model KetabeKhoob.Razor.Models.Sellers.Commands.EditSellerInventoryCommand
+
+<form method="post" asp-page="Index" data-ajax="true">
+    @Html.HiddenFor(x => x.InventoryId)
+    @Html.HiddenFor(x => x.SellerId)
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                @Html.EditorFor(x => x.Price)
+            </div>
+            <div class="col-md-6">
+                @Html.EditorFor(x => x.Count)
+            </div>
+            <div class="col-md-6">
+                @Html.EditorFor(x => x.DiscountPercentage)
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-left">
+        <cancel></cancel>
+        <submit/>
+    </div>
+</form>

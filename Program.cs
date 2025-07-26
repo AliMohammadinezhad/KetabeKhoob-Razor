@@ -1,7 +1,8 @@
-using System.Text;
 using KetabeKhoob.Razor.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddRazorPages()
     .AddRazorPagesOptions(options =>
     {
         options.Conventions.AuthorizeFolder("/Profile", "ProfileLogin");
+        options.Conventions.AuthorizeFolder("/SellerPanel", "SellerPanel");
     });
 
 builder.Services.RegisterApiServices();
@@ -42,6 +44,12 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("ProfileLogin", policyBuilder =>
     {
         policyBuilder.RequireAuthenticatedUser();
+    });
+    options.AddPolicy("SellerPanel", builder =>
+    {
+        builder.RequireAuthenticatedUser();
+        builder.RequireAssertion(f => f.User.Claims
+            .Any(c => c.Type == ClaimTypes.Role && c.Value.Contains("Seller")));
     });
 });
 

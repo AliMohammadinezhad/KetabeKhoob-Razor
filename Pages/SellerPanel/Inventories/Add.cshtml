@@ -1,0 +1,40 @@
+﻿@page
+@using KetabeKhoob.Razor.Models.Products
+@using KetabeKhoob.Razor.Services.Products
+@model KetabeKhoob.Razor.Pages.SellerPanel.Inventories.AddModel
+@inject IProductService ProductService
+@{
+    var products = await ProductService.GetProductByFilter(new ProductFilterParams()
+    {
+        PageId = 1,
+        Take = 100
+    });
+}
+<form class="card" method="post">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <label>انتخاب محصول</label>
+                <select asp-for="ProductId" class="form-control select2">
+                    @foreach (var product in products.Data)
+                    {
+                        <option value="@product.Id">@product.Title</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                @Html.EditorFor(x => x.Price)
+            </div>
+            <div class="col-md-6">
+                @Html.EditorFor(x => x.Count)
+            </div>
+            <div class="col-md-6">
+                @Html.EditorFor(x => x.DiscountPercentage)
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-left">
+        <cancel></cancel>
+        <submit />
+    </div>
+</form>
